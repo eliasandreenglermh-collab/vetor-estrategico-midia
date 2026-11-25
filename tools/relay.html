@@ -1,0 +1,13 @@
+<!doctype html><meta charset="utf-8"><title>relay</title><body style="font:14px sans-serif">relay
+<script>
+const R='https://raw.githubusercontent.com/eliasandreenglermh-collab/vetor-estrategico-midia/main/';
+const alvo=window.opener||window.parent;
+const st=document.body;
+window.addEventListener('message',async e=>{
+  if(!e.data||e.data.tipo!=='pedir')return;
+  try{const r=await fetch(R+e.data.path+'?t='+Date.now()); const b=await r.blob();
+    alvo.postMessage({tipo:'arquivo',id:e.data.id,name:e.data.name,blob:b},'*'); st.textContent='ok '+e.data.name;}
+  catch(err){alvo.postMessage({tipo:'erro',id:e.data.id,msg:String(err)},'*');}
+});
+alvo.postMessage({tipo:'pronto'},'*');
+</script>
